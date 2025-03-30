@@ -3,6 +3,7 @@ import math
 import random
 import cocos
 from cocos.sprite import Sprite
+from cocos.director import director
 
 import define
 from dot import Dot
@@ -11,8 +12,8 @@ from dot import Dot
 class Snake(cocos.cocosnode.CocosNode):
     no = 0
 
-    def __init__(self, is_enemy=False):
-        super(Snake, self).__init__()
+    def __init__(self, is_enemy = False):
+        super().__init__()
         self.is_dead = False
         self.angle = random.randrange(360)  # 目前角度
         self.angle_dest = self.angle  # 目标角度
@@ -20,11 +21,18 @@ class Snake(cocos.cocosnode.CocosNode):
         self.no = Snake.no
         Snake.no += 1
         if is_enemy:
-            self.position = random.randrange(300, 1300), random.randrange(200, 600)
-            if 600 < self.x < 1000:
-                self.x += 400
+            center_avoid = director.get_window_size()[0] // 4
+            self.position = (
+                random.randrange(director.get_window_size()[0] // 3, director.get_window_size()[0] * 2 // 3),
+                random.randrange(director.get_window_size()[1] // 3, director.get_window_size()[1] * 2 // 3)
+            )
+            if (director.get_window_size()[0] * 3 // 8) < self.x < (director.get_window_size()[0] * 5 // 8):
+                self.x += center_avoid
         else:
-            self.position = random.randrange(700, 900), random.randrange(350, 450)
+            self.position = (
+                random.randrange(director.get_window_size()[0] // 3, director.get_window_size()[0] // 2),
+                random.randrange(director.get_window_size()[1] // 3, director.get_window_size()[1] // 2)
+            )
         self.is_enemy = is_enemy
         self.head = Sprite('circle.png', color=self.color)
         self.scale = 1.5

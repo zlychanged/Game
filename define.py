@@ -2,8 +2,8 @@
 import random
 
 # 定义常量
-WIDTH = 1600
-HEIGHT = 800
+WIDTH = 720
+HEIGHT = 720
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
